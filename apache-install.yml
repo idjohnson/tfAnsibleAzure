@@ -1,0 +1,37 @@
+- become: yes
+  hosts: all
+  name: apache-install
+  tasks:
+    - name: Add the user 'stuart' and add it to 'sudo'
+      user:
+        name: stuart
+        group: sudo
+        
+    - name: Add SSH key to 'stuart'
+      authorized_key:
+        user: stuart
+        state: present
+        key: "{{ lookup('file', pub_key) }}"
+        
+    - name: Wait for apt to unlock
+      become: yes
+      shell:  while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
+      
+    - name: Install apache2
+      apt:
+        name: apache2
+        update_cache: yes
+        state: latest
+      
+    - name: Enable mod_rewrite
+      apache2_module:
+        name: rewrite 
+        state: present
+      notify:
+        - Restart apache2
+
+  handlers:
+    - name: Restart apache2
+      service:
+        name: apache2
+        state: restarted

@@ -108,6 +108,25 @@ resource "local_file" "idrsapub" {
   EOT
 }
 
+# Fetching an AKV Secret
+
+data "azurerm_key_vault" "idjakv" {
+  name                = "idjakv"
+  resource_group_name = "idjakvrg"
+}
+
+data "azurerm_key_vault_secret" "ghpassword" {
+  name         = "GithubToken-MyFull90d"
+  key_vault_id = data.azurerm_key_vault.idjakv.id
+}
+
+#pull the code from github
+resource "null_resource" "git_clone" {
+  provisioner "local-exec" {
+    command = "git clone https://idjohnson:${data.azurerm_key_vault_secret.ghpassword.value}@github.com/idjohnson/ansible-playbooks ./local_co"
+  }
+}
+
 # Create virtual machine
 
 resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
@@ -155,7 +174,9 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   }
 
   provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u azureuser -i '${azurerm_linux_virtual_machine.my_terraform_vm.public_ip_address},' --private-key ${local_file.idrsa.filename} -e 'pub_key=${local_file.idrsapub.filename}' apache-install.yml"
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u azureuser -i '${azurerm_linux_virtual_machine.my_terraform_vm.public_ip_address},' --private-key ${local_file.idrsa.filename} -e 'pub_key=${local_file.idrsapub.filename}' ./local_co/cloudcustodian.yaml"
     
   }
+
+  depends_on = [ null_resource.git_clone ]
 }

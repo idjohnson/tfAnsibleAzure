@@ -122,13 +122,13 @@ data "azurerm_key_vault_secret" "ghpassword" {
 
 resource "azurerm_key_vault_secret" "idjrsapubsecret" {
   name         = "azure-myvm-pub"
-  value        = ${tls_private_key.example_ssh.public_key_openssh}
+  value        = tls_private_key.example_ssh.public_key_openssh
   key_vault_id = data.azurerm_key_vault.idjakv.id
 }
 
 resource "azurerm_key_vault_secret" "idjrsaprivsecret" {
   name         = "azure-myvm-priv"
-  value        = ${tls_private_key.example_ssh.private_key_pem}
+  value        = tls_private_key.example_ssh.private_key_pem
   key_vault_id = data.azurerm_key_vault.idjakv.id
 }
 

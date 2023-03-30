@@ -181,13 +181,9 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
       "sudo apt-add-repository -y ppa:ansible/ansible", 
       "sudo apt update",
       "sudo apt install python3 build-essential ansible -y", 
-      "sudo apt install -y docker.io",
-      "sudo snap install docker", 
-      "sudo usermod -aG docker azureuser", 
-      "newgrp docker", 
       "git clone https://github.com/idjohnson/ansible-playbooks ./local_co",
       "echo -e '[all]\nlocalhost' > myhosts.ini",
-      "ansible-playbook -i myhosts.ini --connection=local ./local_co/cloudcustodian.yaml",      
+      "ansible-playbook -i myhosts.ini --connection=local ./local_co/cloudcustodiandocker.yaml",      
       "echo Done!"
     ]
 

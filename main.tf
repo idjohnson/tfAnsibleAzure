@@ -166,11 +166,11 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt-add-repository ppa:ansible/ansible", 
+      "sudo apt-add-repository -y ppa:ansible/ansible", 
       "sudo apt update",
-      "sudo apt install python3 build-essential python-dev ansible -y", 
-      "git clone https://idjohnson:${data.azurerm_key_vault_secret.ghpassword.value}@github.com/idjohnson/ansible-playbooks ./local_co",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u azureuser -i '${azurerm_linux_virtual_machine.my_terraform_vm.public_ip_address},' --private-key ${local_file.idrsa.filename} -e 'pub_key=${local_file.idrsapub.filename}' ./local_co/cloudcustodian.yaml",      
+      "sudo apt install python3 build-essential ansible -y", 
+      "git clone https://github.com/idjohnson/ansible-playbooks ./local_co",
+      "ansible-playbook ./local_co/cloudcustodian.yaml",      
       "echo Done!"
     ]
 

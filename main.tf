@@ -182,7 +182,8 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
       "sudo apt update",
       "sudo apt install python3 build-essential ansible -y", 
       "git clone https://github.com/idjohnson/ansible-playbooks ./local_co",
-      "echo -e '[all]\nlocalhost' > myhosts.ini",
+      "echo '[all]' > myhosts.ini",
+      "echo 'localhost' >> myhosts.ini",
       "ansible-playbook -i myhosts.ini --connection=local ./local_co/cloudcustodiandocker.yaml",      
       "echo Done!"
     ]

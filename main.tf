@@ -222,9 +222,10 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 
   default_node_pool {
-    name       = "agentpool"
-    vm_size    = "Standard_D2_v2"
-    node_count = var.node_count
+    name                 = "agentpool"
+    vm_size              = "Standard_D2_v2"
+    node_count           = var.node_count
+    orchestrator_version = var.kubernetes_version
   }
   linux_profile {
     admin_username = "ubuntu"

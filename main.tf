@@ -165,7 +165,7 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
 
   computer_name                   = "myvm"
   admin_username                  = "azureuser"
-  disable_password_authentication = true
+  disable_password_authentication = false
 
   admin_ssh_key {
     username   = "azureuser"

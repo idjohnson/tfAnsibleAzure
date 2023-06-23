@@ -3,6 +3,8 @@ variable "pvt_key" {}
 variable "pub_key" {}
 */
 
+/* 
+
 variable "resource_group_location" {
   type        = string
   default     = "eastus"
@@ -33,3 +35,4 @@ variable "kubernetes_version" {
   description = "The specific version of Kubernetes to use."
 }
 
+*/

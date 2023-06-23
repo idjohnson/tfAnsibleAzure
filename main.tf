@@ -210,6 +210,7 @@ resource "random_pet" "azurerm_kubernetes_cluster_dns_prefix" {
   prefix = "dns"
 }
 
+/*
 resource "azurerm_kubernetes_cluster" "k8s" {
   location            = azurerm_resource_group.rg.location
   name                = random_pet.azurerm_kubernetes_cluster_name.id
@@ -239,3 +240,4 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     load_balancer_sku = "standard"
   }
 }
+*/

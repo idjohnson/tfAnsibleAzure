@@ -29,7 +29,7 @@ variable "msi_id" {
 
 variable "kubernetes_version" {
   type        = string
-  default     = "1.24.9 "
+  default     = "1.24.9"
   description = "The specific version of Kubernetes to use."
 }
 
